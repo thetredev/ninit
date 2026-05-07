@@ -13,13 +13,25 @@ ARG GOOS
 ARG GOARCH
 ARG GO_BUILD_ARGS
 
+RUN apk add --no-cache binutils
+
 COPY src /src
 
 WORKDIR /src/ninit
-RUN go build -ldflags="${GO_LDFLAGS}" .
+RUN <<EOF
+set -xe
+
+go build -ldflags="${GO_LDFLAGS}" .
+strip ninit
+EOF
 
 WORKDIR /src/ninit-supervise
-RUN go build -ldflags="${GO_LDFLAGS}" .
+RUN <<EOF
+set -xe
+
+go build -ldflags="${GO_LDFLAGS}" .
+strip ninit-supervise
+EOF
 
 
 FROM alpine:3.23
