@@ -2,7 +2,7 @@
 
 mkdir -p /etc/docker
 
-# alpine doesn't like the container-snapshotter
+# alpine doesn't like the containerd-snapshotter and userland-proxy
 # (this works for now)
 cat > /etc/docker/daemon.json <<EOF
 {
