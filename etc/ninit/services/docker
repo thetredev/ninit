@@ -1,0 +1,17 @@
+#!/bin/sh
+
+mkdir -p /etc/docker
+
+# alpine doesn't like the container-snapshotter
+# (this works for now)
+cat > /etc/docker/daemon.json <<EOF
+{
+  "features": {
+    "containerd-snapshotter": false
+  },
+  "userland-proxy": false
+}
+EOF
+
+
+exec dockerd ${DOCKERD_OPTS}
