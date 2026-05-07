@@ -38,8 +38,8 @@ func main() {
 			fmt.Fprintf(os.Stderr, "[ninit-supervise] failed to parse config: %v\n", err)
 			os.Exit(1)
 		}
-		for envKey, envVal := range config {
-			execEnviron = append(execEnviron, fmt.Sprintf("%s=%s", envKey, envVal))
+		for configKey, configValue := range config {
+			execEnviron = append(execEnviron, fmt.Sprintf("%s=%s", configKey, configValue))
 		}
 	}
 

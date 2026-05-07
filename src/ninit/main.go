@@ -11,6 +11,8 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/hashicorp/go-envparse"
 )
 
 const (
@@ -41,15 +43,14 @@ func getConfig(service, key, defaultValue string) string {
 		return defaultValue
 	}
 	defer f.Close()
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if strings.HasPrefix(line, key+"=") {
-			if val := strings.TrimPrefix(line, key+"="); val != "" {
-				return val
-			}
+
+	config, err := envparse.Parse(f)
+	for configKey, configValue := range config {
+		if configKey == key {
+			return configValue
 		}
 	}
+
 	return defaultValue
 }
 
